@@ -1,0 +1,22 @@
+div(ng-include='\'partials/navbar\'')
+
+div(class="cabecera")
+div(class="row cuerpo")
+    div(class="semana-container col-md-6")
+        table(class="table")
+            thead
+                tr
+                    td Día
+                    td Fecha
+                    td Estado
+            tbody
+                tr(ng-repeat="planificacion in planificacionesDeEstaSemana")
+                    td {{planificacion.diaDeSemana}}
+                    td {{planificacion.fecha | date : "shortDate"}}
+                    td {{planificacion.estaPlanificado | estaPlanificado}}
+
+    div(class="detalle-container col-md-6")
+
+
+.footer
+  p Ariel Alvarez - Federico Aloi
