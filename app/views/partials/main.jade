@@ -10,13 +10,12 @@ div(class="row cuerpo")
                     td Fecha
                     td Estado
             tbody
-                tr(ng-repeat="planificacion in planificacionesDeEstaSemana")
+                tr(ng-class="{selected: planificacion === seleccionada}", ng-click="seleccionar(planificacion)", ng-repeat="planificacion in planificacionesDeEstaSemana")
                     td {{planificacion.diaDeSemana}}
                     td {{planificacion.fecha | date : "shortDate"}}
                     td {{planificacion.estaPlanificado | estaPlanificado}}
 
-    div(class="detalle-container col-md-6")
-
+    div(class="detalle-container col-md-6") {{seleccionada.diaDeSemana}}
 
 .footer
   p Ariel Alvarez - Federico Aloi

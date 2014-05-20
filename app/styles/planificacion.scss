@@ -12,6 +12,10 @@
   text-align: left;
 }
 
-.table tbody tr:hover{
-  background-color: #f9f9f9;
+.table tbody tr:not(.selected):hover{
+  background-color: #cacaca;
+}
+
+.selected {
+  background-color: #5bc0de;
 }

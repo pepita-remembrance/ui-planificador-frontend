@@ -10,7 +10,7 @@ angular.module('planificadorApp', [
     $routeProvider
       .when '/',
         templateUrl: 'partials/main'
-        controller: 'MainCtrl'
+        controller: 'PlanificacionCtrl'
       
       .otherwise
         redirectTo: '/'

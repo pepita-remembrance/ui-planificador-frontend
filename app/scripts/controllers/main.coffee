@@ -9,21 +9,12 @@ app.factory "UrlBase", -> "http://localhost:9000/api"
 
 #app.factory "UrlBase", -> "http://10.9.1.41:9000"
 
-app.controller 'MainCtrl', ($scope, Planificacion) ->
+app.controller 'PlanificacionCtrl', ($scope, Planificacion) ->
     $scope.planificacionesDeEstaSemana = Planificacion.query()
-
-app.directive 'dateFormat', ()->
-  {
-    require: 'ngModel',
-    link: (scope, element, attr, ngModelCtrl) ->
-
-      ngModelCtrl.$formatters.unshift (valueFromModel) ->
-        valueFromModel
-
-      ngModelCtrl.$formatters.push (valueFromInput) ->
-        valueFromInput
-
-  }
+    $scope.seleccionada = $scope.planificacionesDeEstaSemana[0]
+    $scope.seleccionar = (unaPlanificacion) ->
+      $scope.seleccionada = unaPlanificacion
+      console.log(unaPlanificacion)
 
 app.filter 'estaPlanificado', ->
   (valor) ->  if valor then "Planificado" else "No Planificado"
