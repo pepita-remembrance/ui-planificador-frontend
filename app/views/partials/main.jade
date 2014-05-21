@@ -3,17 +3,19 @@ div(ng-include='\'partials/navbar\'')
 div(class="container", ng-controller="PlanificacionCtrl as plani")
     div(class="semana-container")
 
-        form(name="dateFilterForm", ng-controller="DateController as dateCtrl")
-            div(class="date-filters row")
-                    span(class="col-md-3") Desde
-                    input(class="col-md-3", type="date", ng-model="desde", name="desdeInput")
-                    span(class="col-md-3") Hasta
-                    input(class="col-md-3", type="date", ng-model="hasta", name="hastaInput")
+        form(name="dateFilterForm")
 
             //Esto podria ponerse en una directive 'A' en el input
             div(class="alert alert-warning", ng-hide="desde && hasta")
-                    p(ng-hide="desde") El input Desde no tiene una fecha válida
-                    p(ng-hide="hasta") El input Hasta no tiene una fecha válida
+                p(ng-hide="desde") El input Desde no tiene una fecha válida
+                p(ng-hide="hasta") El input Hasta no tiene una fecha válida
+
+            div(class="date-filters row")
+                    span(class="col-md-3") Desde
+                    input(class="col-md-3 form-control", type="date", ng-model="desde", name="desdeInput")
+                    span(class="col-md-3") Hasta
+                    input(class="col-md-3 form-control", type="date", ng-model="hasta", name="hastaInput")
+
             div(ng-class="{'col-md-6':seleccionada.id}")
                 table(class="table")
                     thead

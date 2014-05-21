@@ -6,8 +6,8 @@ table(class="table")
             td Salida
     tbody
         tr(
-        ng-repeat="empleado in planificacion"
+        ng-repeat="empleado in planificacion.empleados"
         )
-            td {{empleado.empleado}}
-            td {{empleado.entrada | date : "HH'hs'"}}
-            td {{empleado.salida | date : "HH'hs'"}}
+            td {{empleado.nombre}}
+            td {{empleado.entrada}}hs
+            td {{empleado.salida}}hs

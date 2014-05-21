@@ -3,18 +3,23 @@
 app = angular.module 'planificadorApp'
 
 app.factory "Planificacion", ($resource, UrlBase) ->
-  $resource "#{UrlBase}/planificacionesDeEstaSemana", {},
-    get:
-      method: 'GET',
-      transformResponse: (data) ->
-        fecha: new Date(data.fecha*1000)
+  transform = (planificacion) ->
+    fecha = new Date (planificacion.fecha)
 
-app.factory "Detail", ($resource, UrlBase) ->
-  $resource "#{UrlBase}/planificacionesDeEstaSemana/:id", {id: '@id'}
+    fecha: fecha
+    id: fecha.getDay()
+    diaDeSemana: ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'][fecha.getDay()]
+    estaPlanificado: planificacion.estaPlanificado
 
-app.factory "UrlBase", -> "http://localhost:9000/api"
+  $resource "#{UrlBase}/planificaciones/:id", {id:"@id"},
+    query:
+      method: 'GET'
+      isArray: true
+      transformResponse: (data) -> (JSON.parse data).map transform
 
-#app.factory "UrlBase", -> "http://10.9.1.41:9000"
+#app.factory "UrlBase", -> "http://localhost:9000/api"
+
+app.factory "UrlBase", -> "http://10.9.1.41:9000"
 
 app.controller 'PlanificacionCtrl', ($scope, Planificacion) ->
     $scope.planificacionesDeEstaSemana = Planificacion.query()
@@ -22,10 +27,8 @@ app.controller 'PlanificacionCtrl', ($scope, Planificacion) ->
     $scope.seleccionar = (unaPlanificacion) ->
       $scope.seleccionada = unaPlanificacion
 
-app.controller 'DateController', ($scope) ->
-
 app.filter 'estaPlanificado', ->
-  (valor) ->  if valor then "Planificado" else "No Planificado"
+  (valor) -> if valor then "Planificado" else "No Planificado"
 
 app.filter 'dateSearch', ->
   (items, campo, comparacion, unaFecha)->
@@ -51,7 +54,7 @@ app.directive 'planificacionDetail', ->
     scope:
       planificacionId: "="
     templateUrl: 'partials/planificacionDetail'
-    controller: ($scope, Detail) ->
+    controller: ($scope, Planificacion) ->
       $scope.$watch 'planificacionId', (nuevo, viejo) ->
-        $scope.planificacion = Detail.query id:nuevo
+        $scope.planificacion = Planificacion.get id:nuevo
 
