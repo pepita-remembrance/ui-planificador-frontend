@@ -1,13 +1,15 @@
-table(class="table")
-    thead
-        tr
-            td Empleado
-            td Entrada
-            td Salida
-    tbody
-        tr(
-        ng-repeat="empleado in planificacion.empleados"
-        )
-            td {{empleado.nombre}}
-            td {{empleado.entrada}}hs
-            td {{empleado.salida}}hs
+div(ng-switch="planificacion.estaPlanificado")
+    h3(ng-switch-when="false") No esta planificado!
+    table(class="table", ng-switch-when="true")
+        thead
+            tr
+                td Empleado
+                td Entrada
+                td Salida
+        tbody
+            tr(
+            ng-repeat="empleado in planificacion.empleados"
+            )
+                td {{empleado.nombre}}
+                td {{empleado.entrada}}hs
+                td {{empleado.salida}}hs
