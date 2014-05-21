@@ -11,9 +11,11 @@ div(class="row cuerpo", ng-controller="PlanificacionCtrl as plani")
                     span(class="col-md-3") Hasta
                     input(class="col-md-3", type="date", ng-model="hasta", name="hastaInput")
 
+            //Esto podria ponerse en una directive 'A' en el input
             div(class="error", ng-hide="desde")
                 | El input Desde no tiene una fecha válida
             div(class="error", ng-hide="hasta")
+                | El input Hasta no tiene una fecha válida
 
             table(class="table")
                 thead
@@ -31,9 +33,7 @@ div(class="row cuerpo", ng-controller="PlanificacionCtrl as plani")
                         td {{planificacion.fecha | date : "dd/MM/yyyy"}}
                         td {{planificacion.estaPlanificado | estaPlanificado}}
 
-    div(class="detalle-container col-md-6") {{seleccionada.diaDeSemana}}
-
-    planificacion-detail
+    planificacion-detail(planificacion-id="seleccionada.id")
 
 .footer
   p Ariel Alvarez - Federico Aloi

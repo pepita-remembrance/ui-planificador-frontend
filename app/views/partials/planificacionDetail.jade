@@ -1,4 +1,18 @@
 //
    Created by logain on 5/20/14.
-
-h2 Un día: {{$parent.seleccionada.diaDeSemana}}
+h3 {{planificacionId}}
+//table(class="table")
+//    thead
+//        tr
+//            td Empleado
+//            td Entrada
+//            td Salida
+//    tbody
+//        tr(
+//        ng-class="{selected: planificacion === seleccionada}",
+//        ng-click="seleccionar(planificacion)",
+//        ng-repeat="planificacion in planificacionesDeEstaSemana | dateSearch:'fecha':'mayorIgualQue':desde | dateSearch:'fecha':'menorIgualQue':hasta"
+//        )
+//            td {{planificacion.diaDeSemana}}
+//            td {{planificacion.fecha | date : "dd/MM/yyyy"}}
+//            td {{planificacion.estaPlanificado | estaPlanificado}}

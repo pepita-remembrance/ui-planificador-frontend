@@ -7,11 +7,7 @@ app.factory "Planificacion", ($resource, UrlBase) ->
     get:
       method: 'GET',
       transformResponse: (data) ->
-        console.log(data);
-        fecha = new Date(0)
-        fecha.setUTCSeconds(data.fecha);
-        data = {}
-        data.fecha = fecha
+        fecha: new Date(data.fecha*1000)
 
 app.factory "UrlBase", -> "http://localhost:9000/api"
 
@@ -35,7 +31,6 @@ app.filter 'dateSearch', ->
     angular.forEach(items, (item) ->
       itemDate = new Date(item[campo])
       compDate = new Date(unaFecha)
-      console.log(campo, compDate, itemDate, itemDate >= compDate)
 
       if unaFecha and comparacion == "menorIgualQue" and itemDate <= compDate
         filtered.push(item)
@@ -50,8 +45,10 @@ app.filter 'dateSearch', ->
 
 app.directive 'planificacionDetail', ->
     restrict: 'E',
-    templateUrl: 'partials/planificacionDetail',
-    controller: ($scope) ->
-      this.detalle = $scope.$parent.seleccionada
-    ,
-    controllerAs: 'planificacion'
+    scope:
+      planificacionId: "="
+    templateUrl: 'partials/planificacionDetail'
+    controller: ($scope, Planificacion) ->
+      $scope.$watch 'planificacionId', (nuevo, viejo) ->
+        $scope.planificacion = Planificacion.query()
+
