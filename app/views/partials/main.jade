@@ -1,21 +1,39 @@
 div(ng-include='\'partials/navbar\'')
 
 div(class="cabecera")
-div(class="row cuerpo")
+div(class="row cuerpo", ng-controller="PlanificacionCtrl as plani")
     div(class="semana-container col-md-6")
-        table(class="table")
-            thead
-                tr
-                    td Día
-                    td Fecha
-                    td Estado
-            tbody
-                tr(ng-class="{selected: planificacion === seleccionada}", ng-click="seleccionar(planificacion)", ng-repeat="planificacion in planificacionesDeEstaSemana")
-                    td {{planificacion.diaDeSemana}}
-                    td {{planificacion.fecha | date : "shortDate"}}
-                    td {{planificacion.estaPlanificado | estaPlanificado}}
+
+        form(name="dateFilterForm", ng-controller="DateController as dateCtrl")
+            div(class="date-filters row")
+                    span(class="col-md-3") Desde
+                    input(class="col-md-3", type="date", ng-model="desde", name="desdeInput")
+                    span(class="col-md-3") Hasta
+                    input(class="col-md-3", type="date", ng-model="hasta", name="hastaInput")
+
+            div(class="error", ng-hide="desde")
+                | El input Desde no tiene una fecha válida
+            div(class="error", ng-hide="hasta")
+
+            table(class="table")
+                thead
+                    tr
+                        td Día
+                        td Fecha
+                        td Estado
+                tbody
+                    tr(
+                        ng-class="{selected: planificacion === seleccionada}",
+                        ng-click="seleccionar(planificacion)",
+                        ng-repeat="planificacion in planificacionesDeEstaSemana | dateSearch:'fecha':'mayorIgualQue':desde | dateSearch:'fecha':'menorIgualQue':hasta"
+                    )
+                        td {{planificacion.diaDeSemana}}
+                        td {{planificacion.fecha | date : "dd/MM/yyyy"}}
+                        td {{planificacion.estaPlanificado | estaPlanificado}}
 
     div(class="detalle-container col-md-6") {{seleccionada.diaDeSemana}}
+
+    planificacion-detail
 
 .footer
   p Ariel Alvarez - Federico Aloi
