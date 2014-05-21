@@ -1,18 +1,13 @@
-//
-   Created by logain on 5/20/14.
-h3 {{planificacionId}}
-//table(class="table")
-//    thead
-//        tr
-//            td Empleado
-//            td Entrada
-//            td Salida
-//    tbody
-//        tr(
-//        ng-class="{selected: planificacion === seleccionada}",
-//        ng-click="seleccionar(planificacion)",
-//        ng-repeat="planificacion in planificacionesDeEstaSemana | dateSearch:'fecha':'mayorIgualQue':desde | dateSearch:'fecha':'menorIgualQue':hasta"
-//        )
-//            td {{planificacion.diaDeSemana}}
-//            td {{planificacion.fecha | date : "dd/MM/yyyy"}}
-//            td {{planificacion.estaPlanificado | estaPlanificado}}
+table(class="table")
+    thead
+        tr
+            td Empleado
+            td Entrada
+            td Salida
+    tbody
+        tr(
+        ng-repeat="empleado in planificacion"
+        )
+            td {{empleado.empleado}}
+            td {{empleado.entrada | date : "HH'hs'"}}
+            td {{empleado.salida | date : "HH'hs'"}}

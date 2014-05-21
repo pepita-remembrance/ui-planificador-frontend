@@ -1,8 +1,7 @@
 div(ng-include='\'partials/navbar\'')
 
-div(class="cabecera")
-div(class="row cuerpo", ng-controller="PlanificacionCtrl as plani")
-    div(class="semana-container col-md-6")
+div(class="container", ng-controller="PlanificacionCtrl as plani")
+    div(class="semana-container")
 
         form(name="dateFilterForm", ng-controller="DateController as dateCtrl")
             div(class="date-filters row")
@@ -12,28 +11,27 @@ div(class="row cuerpo", ng-controller="PlanificacionCtrl as plani")
                     input(class="col-md-3", type="date", ng-model="hasta", name="hastaInput")
 
             //Esto podria ponerse en una directive 'A' en el input
-            div(class="error", ng-hide="desde")
-                | El input Desde no tiene una fecha válida
-            div(class="error", ng-hide="hasta")
-                | El input Hasta no tiene una fecha válida
+            div(class="alert alert-warning", ng-hide="desde && hasta")
+                    p(ng-hide="desde") El input Desde no tiene una fecha válida
+                    p(ng-hide="hasta") El input Hasta no tiene una fecha válida
+            div(ng-class="{'col-md-6':seleccionada.id}")
+                table(class="table")
+                    thead
+                        tr
+                            td Día
+                            td Fecha
+                            td Estado
+                    tbody
+                        tr(
+                            ng-class="{selected: planificacion === seleccionada}",
+                            ng-click="seleccionar(planificacion)",
+                            ng-repeat="planificacion in planificacionesDeEstaSemana | dateSearch:'fecha':'mayorIgualQue':desde | dateSearch:'fecha':'menorIgualQue':hasta"
+                        )
+                            td {{planificacion.diaDeSemana}}
+                            td {{planificacion.fecha | date : "dd/MM/yyyy"}}
+                            td {{planificacion.estaPlanificado | estaPlanificado}}
 
-            table(class="table")
-                thead
-                    tr
-                        td Día
-                        td Fecha
-                        td Estado
-                tbody
-                    tr(
-                        ng-class="{selected: planificacion === seleccionada}",
-                        ng-click="seleccionar(planificacion)",
-                        ng-repeat="planificacion in planificacionesDeEstaSemana | dateSearch:'fecha':'mayorIgualQue':desde | dateSearch:'fecha':'menorIgualQue':hasta"
-                    )
-                        td {{planificacion.diaDeSemana}}
-                        td {{planificacion.fecha | date : "dd/MM/yyyy"}}
-                        td {{planificacion.estaPlanificado | estaPlanificado}}
-
-    planificacion-detail(planificacion-id="seleccionada.id")
+            planificacion-detail(planificacion-id="seleccionada.id", class="col-md-6", ng-show="seleccionada.id")
 
 .footer
   p Ariel Alvarez - Federico Aloi

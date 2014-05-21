@@ -9,13 +9,16 @@ app.factory "Planificacion", ($resource, UrlBase) ->
       transformResponse: (data) ->
         fecha: new Date(data.fecha*1000)
 
+app.factory "Detail", ($resource, UrlBase) ->
+  $resource "#{UrlBase}/planificacionesDeEstaSemana/:id", {id: '@id'}
+
 app.factory "UrlBase", -> "http://localhost:9000/api"
 
 #app.factory "UrlBase", -> "http://10.9.1.41:9000"
 
 app.controller 'PlanificacionCtrl', ($scope, Planificacion) ->
     $scope.planificacionesDeEstaSemana = Planificacion.query()
-    $scope.seleccionada = $scope.planificacionesDeEstaSemana[0]
+    $scope.seleccionada = false
     $scope.seleccionar = (unaPlanificacion) ->
       $scope.seleccionada = unaPlanificacion
 
@@ -48,7 +51,7 @@ app.directive 'planificacionDetail', ->
     scope:
       planificacionId: "="
     templateUrl: 'partials/planificacionDetail'
-    controller: ($scope, Planificacion) ->
+    controller: ($scope, Detail) ->
       $scope.$watch 'planificacionId', (nuevo, viejo) ->
-        $scope.planificacion = Planificacion.query()
+        $scope.planificacion = Detail.query id:nuevo
 
